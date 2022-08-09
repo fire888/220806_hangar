@@ -1,8 +1,8 @@
 import * as THREE from 'three'
+import { createCheckerIntersepts } from '../helpers/checkerIntersepts'
 
 export const createPlayer = root => {
-    let keys = null
-    let speed = 40
+
 
     const mainObj = new THREE.Object3D()
     mainObj.position.set(0, 700, 11800)
@@ -20,14 +20,34 @@ export const createPlayer = root => {
     mainObj.add(backObj)
 
     root.keyboardListener.on(data => keys = data)
+
+    let keys = null
     const dirKeys = {
-        'up': frontObj,
-        'down': backObj,
+        'moveForward': frontObj,
+        'moveBackward': backObj,
     }
+
+
+    let collisionsArr = []
+    const checkerIntersepts = createCheckerIntersepts()
+    const checkSegmentAndCollision = direction => {
+        const [is] = checkerIntersepts.checkCollisions(camera, dirKeys[direction], 300)
+        return is
+    }
+
+
+    let speed = 40
 
     return {
         camera,
         mainObj,
+        setCollisionArr: arr => {
+            for (let i = 0; i < arr.length; ++i) {
+                collisionsArr.push(arr[i])
+                checkerIntersepts.setItemToCollision(arr[i])
+            }
+        },
+        start: () => {},
         update: n => {
             if (n === undefined) {
                 n = 1
@@ -35,12 +55,17 @@ export const createPlayer = root => {
             if (!keys) {
                 return;
             }
-
-            if (keys['moveBackward']) {
-                mainObj.translateZ(speed * n)
-            }
             if (keys['moveForward']) {
+                if (checkSegmentAndCollision('moveForward')) {
+                    return;
+                }
                 mainObj.translateZ(-speed * n)
+            }
+            if (keys['moveBackward']) {
+                if (checkSegmentAndCollision('moveBackward')) {
+                    return;
+                }
+                mainObj.translateZ(speed * n)
             }
             if (keys['moveLeft']) {
                  mainObj.rotation.y += 0.02 * n

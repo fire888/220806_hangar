@@ -10,13 +10,14 @@ export const createLevel = (root) => {
     const scene = assets.hangarGlb.scene
     const items = {}
 
+    const collisionItems = []
+
 
     assets.hangarGlb.scene.traverse(item => {
         if (LEVEL_ITEMS_DATA[item.name]) {
-            const { name, mat, scale, rotation, castShadow, receiveShadow, } = LEVEL_ITEMS_DATA[item.name]
+            const { name, mat, scale, rotation, castShadow, receiveShadow } = LEVEL_ITEMS_DATA[item.name]
 
             if (mat) {
-                //console.log(mat)
                 item.material = materials[mat]
             }
             if (scale) {
@@ -33,6 +34,10 @@ export const createLevel = (root) => {
             }
 
             items[name] = item
+        } else {
+            if (item.material) {
+                item.visible = false
+            }
         }
 
         if (item.name === 'Monitor') {
@@ -45,6 +50,13 @@ export const createLevel = (root) => {
             videoTexture.flipY = false
             videoTexture.encoding = THREE.sRGBEncoding
             items['monitorMesh'].material =  videoMaterial
+        }
+
+        if (item.name === 'collisionsWalls') {
+            // console.log('!!!!', item)
+            collisionItems.push(item) 
+            item.visible = true
+            //item.material.side = THREE.DoubleSide
         }
     })
 
@@ -75,6 +87,7 @@ export const createLevel = (root) => {
     return {
         scene,
         noiseBlob,
+        collisionItems,
         update: () => {
             // // Update Crystall + CrystallGrid + Stone
             if (items.crystallMesh) {

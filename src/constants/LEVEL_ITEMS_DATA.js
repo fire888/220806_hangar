@@ -2,8 +2,8 @@ export const LEVEL_ITEMS_DATA = {
     'Floor': {
         name: 'floorMesh',
         mat: 'floorMaterial',
-        castShadow: true,
-        receiveShadow: true,
+        //castShadow: true,
+        //receiveShadow: true,
     },
     'LeftWall': {
         name: 'leftWallMesh',
@@ -21,18 +21,18 @@ export const LEVEL_ITEMS_DATA = {
         name: 'frontWallMesh',
         mat: 'frontWallMaterial',
     },
-    // 'Columns1': {
-    //     name: 'columnsMesh',
-    //     mat: 'columnsMaterial',
-    //     castShadow: true,
-    //     receiveShadow: true,
-    // },
-    // 'Columns2': {
-    //     name: 'columnsMesh',
-    //     mat: 'columnsMaterial',
-    //     castShadow: true,
-    //     receiveShadow: true,
-    // },
+    'Columns1': {
+        name: 'columnsMesh',
+        mat: 'columnsMaterial',
+        //castShadow: true,
+        //receiveShadow: true,
+    },
+    'Columns2': {
+        name: 'columnsMesh',
+        mat: 'columnsMaterial',
+        //castShadow: true,
+        //receiveShadow: true,
+    },
     // 'Ceiling': {
     //     name: 'ceilingMesh',
     //     mat: 'ceilingMaterial',

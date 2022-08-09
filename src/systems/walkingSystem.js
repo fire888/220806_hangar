@@ -2,33 +2,34 @@ import { createPlayerPointer } from '../entities/playerPointer'
 import { createPlayer } from '../entities/playerDomControls'
 
 export const createWalkingSystem = root => {
-    let pointerPlayer
-    let domControlsPlayer 
+    //let pointerPlayer
+    //let domControlsPlayer 
+
+    let player
 
     if (root.device.mode !== 'desktop') {
-        domControlsPlayer = createPlayer(root)
-        root.studio.addToScene(domControlsPlayer.mainObj)
-        root.studio.setCamera(domControlsPlayer.camera) 
+        player = createPlayer(root)
+        player.setCollisionArr(root.levelSystem.collisionItems)
+        root.studio.addToScene(player.mainObj)
+        root.studio.setCamera(player.camera) 
     } else {
-        pointerPlayer = createPlayerPointer(root)
-        root.studio.setCamera(pointerPlayer.camera) 
-        root.studio.addToScene(pointerPlayer.getControlsObject())
+        player = createPlayerPointer(root)
+        player.setCollisionArr(root.levelSystem.collisionItems)
+        root.studio.setCamera(player.camera) 
+        root.studio.addToScene(player.getControlsObject())
     }
 
 
 
     return {
-        startWalking: () => {
-            if (pointerPlayer) { 
-                pointerPlayer.unlockControls()
-            }
-            if (domControlsPlayer) {
+        startWalking: () => { 
+            player.start()
+            if (root.device.mode !== 'desktop') {
                 root.keyboardListener.showArrows()
-            }    
+            }
         },
         update: () => {
-            pointerPlayer && pointerPlayer.update()
-            domControlsPlayer && domControlsPlayer.update()
+            player.update()
         }
     }
 }

@@ -28,11 +28,12 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
         root.materials = materials
 
         root.studio = createStudio(root)
-        root.walkingSystem = createWalkingSystem(root)
 
-        const levelSystem = createLevel(root)
-        root.studio.addToScene(levelSystem.scene)
-        root.studio.addToScene(levelSystem.noiseBlob)
+        root.levelSystem = createLevel(root)
+        root.studio.addToScene(root.levelSystem.scene)
+        root.studio.addToScene(root.levelSystem.noiseBlob)
+
+        root.walkingSystem = createWalkingSystem(root)
 
         const ui = createUi(root)
         ui.hideStartScreen(() => {
@@ -40,7 +41,7 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
         })
 
         const tick = () => {
-            levelSystem.update()
+            root.levelSystem.update()
             root.walkingSystem.update()
             root.studio.render()
             window.requestAnimationFrame(tick)
