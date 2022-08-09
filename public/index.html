@@ -95,6 +95,21 @@
             background: url("startBtn.png") center no-repeat;
             background-size: cover;
         }
+
+        .lock-pointer-control {
+            position: absolute;
+            z-index: 100;
+            left: 50vw;
+            top: 45vh;
+            transform: translate(-125px, 0);
+            color: aliceblue;
+            min-width: 250px;
+            background-color: #00000088;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
     </style>
     </head>
     <body>
@@ -110,6 +125,7 @@
         </div>
     <div class="canvas-wrapper">
         <canvas id='webgl-canvas'></canvas>
+        <div class="lock-pointer-control control hidden">click to walk</div>
         <div class="arrow-top control hidden"></div>
         <div class="arrow-bottom control hidden"></div>
         <div class="arrow-left control hidden"></div>

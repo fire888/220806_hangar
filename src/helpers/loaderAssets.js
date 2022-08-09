@@ -15,20 +15,32 @@ export const createLoadManager = () => {
         startLoad: (assetsData, onComplete, onProgress) => {
             const assets = {}
 
-            const loadAsset = i => {
-                if (!assetsData[i]) {
-                    return void onComplete(assets);
+            const checkIsAllLoaded = () => {
+                for (let i = 0; i < assetsData.length; ++i) {
+                    let isItemInAssets = false
+                    for (let key in assets) {
+                        if (assetsData[i].key === key) {
+                            isItemInAssets = true        
+                        }
+                    }
+                    if (!isItemInAssets) {
+                        return false
+                    }    
                 }
+                return true
+            }
 
+
+            for (let i = 0; i < assetsData.length; ++i) {
                 const { key, src, type } = assetsData[i]
 
                 loaders[type].load(src, model => {
                     assets[key] = model
-                    loadAsset(++i)
+                    if (checkIsAllLoaded()) {
+                        onComplete(assets)
+                    }    
                 })
             }
-
-            loadAsset(0)
         }
     }
 }

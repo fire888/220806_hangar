@@ -6,7 +6,9 @@ import { makeMaterials } from './helpers/makeMaterials'
 import { createLevel } from './systems/createLevel'
 import { createStudio } from './entities/studio'
 import { createUi } from './systems/ui'
-
+import { checkDevice } from './helpers/checkerDevice'
+import { createKeyBoardListener } from './helpers/keyBoardListener'
+import { createWalkingSystem } from './systems/walkingSystem'
 
 
 const root = {
@@ -14,6 +16,8 @@ const root = {
     LEVEL_ITEMS_DATA,
     ASSETS_TO_LOAD,
 }
+root.device = checkDevice()
+root.keyboardListener = createKeyBoardListener()
 
 const loadManager = createLoadManager()
 loadManager.startLoad(ASSETS_TO_LOAD, assets => {
@@ -21,20 +25,22 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
     makeMaterials(MATERIALS_DATA, assets, materials => {
         root.materials = materials
 
-        const studio = createStudio(root)
+        root.studio = createStudio(root)
+        root.walkingSystem = createWalkingSystem(root)
 
         const levelSystem = createLevel(root)
-        studio.addToScene(levelSystem.scene)
-        studio.addToScene(levelSystem.noiseBlob)
+        root.studio.addToScene(levelSystem.scene)
+        root.studio.addToScene(levelSystem.noiseBlob)
 
         const ui = createUi(root)
         ui.hideStartScreen(() => {
-            studio.unlockControls()
+            root.walkingSystem.unlockControls()
         })
 
         const tick = () => {
             levelSystem.update()
-            studio.render()
+            root.walkingSystem.update()
+            root.studio.render()
             window.requestAnimationFrame(tick)
         }
         tick()
