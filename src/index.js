@@ -1,3 +1,4 @@
+import './stylesheets/style.css'
 import { LEVEL_ITEMS_DATA } from './constants/LEVEL_ITEMS_DATA'
 import { ASSETS_TO_LOAD } from './constants/ASSETS_TO_LOAD'
 import { MATERIALS_DATA } from './constants/MATERIALS_DATA'
@@ -17,7 +18,8 @@ const root = {
     ASSETS_TO_LOAD,
 }
 root.device = checkDevice()
-root.keyboardListener = createKeyBoardListener()
+//root.device.mode = 'phone'
+root.keyboardListener = createKeyBoardListener(root)
 
 const loadManager = createLoadManager()
 loadManager.startLoad(ASSETS_TO_LOAD, assets => {
@@ -34,7 +36,7 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
 
         const ui = createUi(root)
         ui.hideStartScreen(() => {
-            root.walkingSystem.unlockControls()
+            root.walkingSystem.startWalking()
         })
 
         const tick = () => {
@@ -46,5 +48,3 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
         tick()
     })
 })
-
-

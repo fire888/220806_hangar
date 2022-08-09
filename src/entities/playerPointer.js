@@ -50,11 +50,11 @@ export const createPlayerPointer = root => {
             direction.x = Number(keysData.moveRight) - Number(keysData.moveLeft)
             direction.normalize()
         
-            if ( keysData.moveForward || keysData.moveBackward ) velocity.z -= direction.z
-            if ( keysData.moveLeft || keysData.moveRight ) velocity.x -= direction.x
+            if ( keysData.moveForward || keysData.moveBackward ) velocity.z -= (direction.z * 2)
+            if ( keysData.moveLeft || keysData.moveRight ) velocity.x -= (direction.x * 2)
         
-            controlsLook.moveRight( - velocity.x * 10 )
-            controlsLook.moveForward( - velocity.z * 10 )
+            controlsLook.moveRight( - velocity.x * 15 )
+            controlsLook.moveForward( - velocity.z * 15 )
         }
     }
 }

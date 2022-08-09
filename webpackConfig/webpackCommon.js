@@ -12,7 +12,7 @@ module.exports = {
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[path][name].[ext]',
+                        name: 'img/[name].[ext]',
                         outputPath: ''
                     }
                 }]
@@ -22,7 +22,17 @@ module.exports = {
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[path][name].[ext]',
+                        name: 'model/[name].[ext]',
+                        outputPath: ''
+                    }
+                }]
+            },
+            {
+                test: /\.mp4$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
                         outputPath: ''
                     }
                 }]

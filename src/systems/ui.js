@@ -49,7 +49,9 @@ export const createUi = root => {
             startButton.addEventListener('click', () => {
                 const startScreen = document.querySelector('.start-screen')
                 startScreen.style.display = 'none'
-                //openFullScreen()
+                if (root.device.deviceType === 'desktop') {
+                   // openFullScreen()
+                }
                 on()
             })
         }

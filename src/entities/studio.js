@@ -64,7 +64,7 @@ export const createStudio = root => {
             scene.add(m)
         },
         render: () => {
-            renderer.render(scene, camera)
+            camera && renderer.render(scene, camera)
         },
         setCamera: cam => {
             camera = cam

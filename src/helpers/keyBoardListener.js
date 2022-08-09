@@ -1,5 +1,11 @@
-export const createKeyBoardListener = () => {
-    const callbacks = []
+export const createKeyBoardListener = root => {
+
+    const arr = [
+        { domClass: '.arrow-left',  keyCode: 'ArrowLeft', domElem: null },
+        { domClass: '.arrow-right',  keyCode: 'ArrowRight', domElem: null  },
+        { domClass: '.arrow-top',  keyCode: 'ArrowUp', domElem: null },
+        { domClass: '.arrow-bottom',  keyCode: 'ArrowDown', domElem: null },
+    ]
 
     const keysData = {
         moveForward: false,
@@ -9,6 +15,7 @@ export const createKeyBoardListener = () => {
     }
 
 
+    const callbacks = []
     const updateSubscrubers = () => {
         for (let i = 0; i < callbacks.length; ++i) {
             callbacks[i](keysData)
@@ -16,69 +23,62 @@ export const createKeyBoardListener = () => {
     }
 
 
-    const onKeyDown = function ( event ) {
-
-        switch ( event.code ) {
-    
+    const onKey = (code, isDown) =>  {
+        switch (code) {
             case 'ArrowUp':
             case 'KeyW':
-                keysData.moveForward = true;
+                keysData.moveForward = isDown
                 break;
     
             case 'ArrowLeft':
             case 'KeyA':
-                keysData.moveLeft = true;
+                keysData.moveLeft = isDown
                 break;
     
             case 'ArrowDown':
             case 'KeyS':
-                keysData.moveBackward = true;
+                keysData.moveBackward = isDown
                 break;
     
             case 'ArrowRight':
             case 'KeyD':
-                keysData.moveRight = true;
-                break;    
+                keysData.moveRight = isDown
+                break;
         }
         updateSubscrubers()
     }
-    
-    const onKeyUp = function ( event ) {
-    
-        switch ( event.code ) {
-    
-            case 'ArrowUp':
-            case 'KeyW':
-                keysData.moveForward = false;
-                break;
-    
-            case 'ArrowLeft':
-            case 'KeyA':
-                keysData.moveLeft = false;
-                break;
-    
-            case 'ArrowDown':
-            case 'KeyS':
-                keysData.moveBackward = false
-                break;
-    
-            case 'ArrowRight':
-            case 'KeyD':
-                keysData.moveRight = false;
-                break;
-    
-        }
 
-        updateSubscrubers()
-    }
+
+
+    if (root.device.mode !== 'desktop') {    
+        for (let i = 0; i < arr.length; ++i) {
+            const elem = document.querySelector(arr[i].domClass)
+            if (elem) {
+                arr[i].domElem = elem
+                elem.addEventListener('mousedown', () => onKey(arr[i].keyCode, true))
+                elem.addEventListener('mouseup', () => onKey(arr[i].keyCode, false))
+                elem.addEventListener('touchstart', () => onKey(arr[i].keyCode, true))
+                elem.addEventListener('touchend', () => onKey( arr[i].keyCode, false))
+            }
+        }  
+    } else {
+        document.addEventListener('keydown', e => onKey(e.code, true))
+        document.addEventListener('keyup',  e => onKey(e.code, false))
+    } 
     
-    document.addEventListener('keydown', onKeyDown)
-    document.addEventListener('keyup', onKeyUp)
+    
 
 
     return {
         on: fn => {
             callbacks.push(fn)                
+        },
+        showArrows: () => {
+            for (let i = 0; i < arr.length; ++i) {
+                  if (arr[i].domElem) {
+                    arr[i].domElem.classList.remove('hidden')
+                  }  
+            }  
         }
     }
 }
