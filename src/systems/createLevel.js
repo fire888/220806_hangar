@@ -36,7 +36,7 @@ export const createLevel = (root) => {
             items[name] = item
         } else {
             if (item.material) {
-                item.visible = false
+                //item.visible = false
             }
         }
 
@@ -45,18 +45,18 @@ export const createLevel = (root) => {
 
             const video = document.getElementById('video');
             const videoTexture = new THREE.VideoTexture(video);
-            const videoMaterial =  new THREE.MeshBasicMaterial( { map: videoTexture } );
-            videoMaterial.side =  THREE.FrontSide
+            const videoMaterial = new THREE.MeshBasicMaterial( { map: videoTexture } );
+            videoMaterial.side = THREE.FrontSide
             videoTexture.flipY = false
             videoTexture.encoding = THREE.sRGBEncoding
-            items['monitorMesh'].material =  videoMaterial
+            items['monitorMesh'].material = videoMaterial
         }
 
         if (item.name === 'collisionsWalls') {
-            // console.log('!!!!', item)
             collisionItems.push(item) 
-            item.visible = true
-            //item.material.side = THREE.DoubleSide
+            //item.visible = true
+            item.visible = false
+            item.material.side = THREE.DoubleSide
         }
     })
 
@@ -64,29 +64,29 @@ export const createLevel = (root) => {
 
 
 
-    const blobMaterial = new THREE.ShaderMaterial({
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        uniforms:
-            {
-                time: { type: "f", value: 0 }
-            }
-    })
+    // const blobMaterial = new THREE.ShaderMaterial({
+    //     vertexShader: vertexShader,
+    //     fragmentShader: fragmentShader,
+    //     uniforms:
+    //         {
+    //             time: { type: "f", value: 0 }
+    //         }
+    // })
 
-    const blobGeometry = new THREE.SphereGeometry( 100,300,200)
+    // const blobGeometry = new THREE.SphereGeometry( 100,300,200)
 
-    const noiseBlob = new THREE.Mesh( blobGeometry, blobMaterial )
-    noiseBlob.position.set(-1680, 510, 0)
-    noiseBlob.scale.set(3, 3, 3)
-    noiseBlob.modifier = Math.random()
-    noiseBlob.material.transparent = true
-    noiseBlob.material.opacity = 10 * Math.random()
-    const start = Date.now()
+    // const noiseBlob = new THREE.Mesh( blobGeometry, blobMaterial )
+    // noiseBlob.position.set(-1680, 510, 0)
+    // noiseBlob.scale.set(3, 3, 3)
+    // noiseBlob.modifier = Math.random()
+    // noiseBlob.material.transparent = true
+    // noiseBlob.material.opacity = 10 * Math.random()
+    // const start = Date.now()
 
 
     return {
         scene,
-        noiseBlob,
+        //noiseBlob,
         collisionItems,
         update: () => {
             // // Update Crystall + CrystallGrid + Stone
@@ -102,9 +102,9 @@ export const createLevel = (root) => {
                 items.counterDesign2Mesh.rotation.z += 0.01
             }
 
-            if (blobMaterial) {
-                blobMaterial.uniforms[ 'time' ].value = .00009 * ( Date.now() - start );
-            }
+            // if (blobMaterial) {
+            //     blobMaterial.uniforms[ 'time' ].value = .00009 * ( Date.now() - start );
+            // }
         }
     }
 }

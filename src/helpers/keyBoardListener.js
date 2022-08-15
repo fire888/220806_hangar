@@ -61,10 +61,10 @@ export const createKeyBoardListener = root => {
                 elem.addEventListener('touchend', () => onKey( arr[i].keyCode, false))
             }
         }  
-    } else {
-        document.addEventListener('keydown', e => onKey(e.code, true))
-        document.addEventListener('keyup',  e => onKey(e.code, false))
-    } 
+    }
+
+    document.addEventListener('keydown', e => onKey(e.code, true))
+    document.addEventListener('keyup',  e => onKey(e.code, false))
     
     
 

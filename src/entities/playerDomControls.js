@@ -5,18 +5,18 @@ export const createPlayer = root => {
 
 
     const mainObj = new THREE.Object3D()
-    mainObj.position.set(0, 700, 11800)
+    mainObj.position.set(0, 700, 11000)
 
     const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 20000)
     camera.position.set(0, 0, 0)
     mainObj.add(camera)
 
     const frontObj = new THREE.Object3D()
-    frontObj.position.set(0, 1.8, -1)
+    frontObj.position.set(0, 0, -100)
     mainObj.add(frontObj)
 
     const backObj = new THREE.Object3D()
-    backObj.position.set(0, 1.8, 1)
+    backObj.position.set(0, 0, 400)
     mainObj.add(backObj)
 
     root.keyboardListener.on(data => keys = data)
@@ -31,7 +31,7 @@ export const createPlayer = root => {
     let collisionsArr = []
     const checkerIntersepts = createCheckerIntersepts()
     const checkSegmentAndCollision = direction => {
-        const [is] = checkerIntersepts.checkCollisions(camera, dirKeys[direction], 300)
+        const [is] = checkerIntersepts.checkCollisions(mainObj, dirKeys[direction], 150)
         return is
     }
 
@@ -63,7 +63,7 @@ export const createPlayer = root => {
             }
             if (keys['moveBackward']) {
                 if (checkSegmentAndCollision('moveBackward')) {
-                    return;
+                     return;
                 }
                 mainObj.translateZ(speed * n)
             }

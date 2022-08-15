@@ -31,7 +31,7 @@ loadManager.startLoad(ASSETS_TO_LOAD, assets => {
 
         root.levelSystem = createLevel(root)
         root.studio.addToScene(root.levelSystem.scene)
-        root.studio.addToScene(root.levelSystem.noiseBlob)
+        root.levelSystem.noiseBlob && root.studio.addToScene(root.levelSystem.noiseBlob)
 
         root.walkingSystem = createWalkingSystem(root)
 

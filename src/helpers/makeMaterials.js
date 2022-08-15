@@ -19,8 +19,6 @@ export const makeMaterials = (materialsData, assets, onComplete)  => {
 
         materials[name] = new THREE[type](data)
     }
-
-
-
+    
     onComplete(materials)
 }
